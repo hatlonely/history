@@ -1,0 +1,15 @@
+package: github.com/hatlonely/easygolang
+import:
+- package: github.com/fsnotify/fsnotify
+  version: ^1.4.7
+- package: github.com/go-redis/redis
+  version: ^6.10.2
+testImport:
+- package: github.com/satori/go.uuid
+  version: ^1.2.0
+- package: github.com/smartystreets/goconvey
+  version: ^1.6.3
+  subpackages:
+  - convey
+- package: github.com/spaolacci/murmur3
+  version: ^1.1.0
