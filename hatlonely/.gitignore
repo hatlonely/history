@@ -1,0 +1,9 @@
+.idea/
+.DS_Store
+log/
+hatlonely.sublime-project
+hatlonely.sublime-workspace
+hellowords/spider/one/conf/one.progress
+output/
+.project
+node_modules/

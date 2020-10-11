@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+scp -r $1 qq:/home/hatlonely/download && ssh qq "chown -R hatlonely:hatlonely /home/hatlonely/download/$1"
