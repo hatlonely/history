@@ -1,0 +1,6 @@
+*.pyc
+.idea
+vendor/
+__pycache__
+source
+output
