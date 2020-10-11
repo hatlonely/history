@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  ghost:
+    image: hatlonely/ghost:1.0.0
+    hostname: ghost
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    # ports:
+    #   - "2368:2368"
+    volumes:
+      - "${HOME}/var/docker/ghost/data:/var/lib/ghost/content"
+    networks:
+      - ghostnet
+      - mysqlnet
+    environment:
+      # see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
+      database__client: mysql
+      database__connection__host: mysql
+      database__connection__user: hatlonely
+      database__connection__password: keaiduo1
+      database__connection__database: ghost
+networks:
+  ghostnet:
+    name: ghostnet
+  mysqlnet:
+    external: true
+    name: mysqlnet
