@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "cpu: $(cat /proc/cpuinfo | grep processor | wc -l)"
+echo "cores: $(cat /proc/cpuinfo | grep "cpu cores" | awk '{sum+=$NF}END{print sum}')"
+echo "mem: $(free -m | head -2 | tail -1 | awk '{printf("%sM", $2)}')"
+echo "disk: $(lsblk | grep "part /" | awk '{print $4}')"
+
+ec2-metadata -t 1>/dev/null 2>&1 && ec2-metadata -t -o -v || {
+    echo "local-ipv4: $(ifconfig | grep inet | grep -v inet6 | grep -v 127.0.0.1 | awk '{print $2}' | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | paste -s -d "," -)"
+    echo "public-ipv4: $(curl -s http://whatismyip.akamai.com/)"
+}
+
+echo "version: $(cat /proc/version)"

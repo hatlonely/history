@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl -s https://raw.githubusercontent.com/hatlonely/tools/master/templates/$1 > $1

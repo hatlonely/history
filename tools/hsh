@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+if [[ $1 == "-l" || $1 == "" ]]; then
+    curl -s https://api.github.com/repos/hatlonely/tools/contents/ | \
+        grep name | \
+        awk -F: '{print $2}' | grep -Eo "\".+\"" | \
+        grep -v "\"hsh\"" | grep -v "\"README.md\"" | cut -d '"' -f 2
+    exit 0
+fi
+
+job=$1
+shift
+
+code=$(curl -s https://raw.githubusercontent.com/hatlonely/tools/master/${job})
+# code=$(cat ${job})
+shebang=$(echo ${code} | awk '{print $2}')
+
+if [[ ${shebang} == "python3" ]]; then
+    python3 -c "${code}" $@
+    # curl -s https://raw.githubusercontent.com/hatlonely/tools/master/${job} | python3
+elif [[ ${shebang} == "python" ]]; then
+    python -c "${code}" $@
+    # curl -s https://raw.githubusercontent.com/hatlonely/tools/master/${job} | python    
+else
+    sh -c "${code}" -c $@
+    # curl -s https://raw.githubusercontent.com/hatlonely/tools/master/${job} | sh    
+fi
