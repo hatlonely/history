@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+WORK_ROOT=$(pwd)
+
+if [[ $(uname -s) == "Linux" ]]; then
+    alias python3="/usr/local/python3/bin/python3"
+fi
+
+function mcode() {
+    if [[ ! -z $1 ]]; then
+        since=$(echo "--since $1")
+    fi
+
+    for line in $(cat mcode.txt); do
+        values=$(echo ${line} | awk -F '[:/.]' 'BEGIN{OFS="\t"}{print $(NF-2),$(NF-1),$0}')
+        team=$(echo ${values} | awk '{print $1}')
+        proj=$(echo ${values} | awk '{print $2}')
+        remote=$(echo ${values} | awk '{print $3}')
+        if [[ ! -e ${team}/${proj} ]]; then
+            (mkdir -p ${team} && cd ${team} && git clone ${remote})
+        fi
+        (cd ${team}/${proj} && git pull -a && python3 ${WORK_ROOT}/codestat.py ${since} | python3 ${WORK_ROOT}/mreport.py --host bj-report-ELB20151027-2124151593.us-east-1.elb.amazonaws.com:80 --user mob_report --password Mobvista_256 --logtype python)
+    done
+}
+
+function munit() {
+    for line in $(cat munit.txt); do
+        (cd ${line} && sh everything.sh dependency && sh everything.sh stat | python3 ${WORK_ROOT}/mreport.py --host bj-report-ELB20151027-2124151593.us-east-1.elb.amazonaws.com:80 --user mob_report --password Mobvista_256 --logtype python)
+    done
+}
+
+function main() {
+    mcode "$1"
+    munit
+}
+
+main "$@"
