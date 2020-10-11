@@ -1,0 +1,12 @@
+package: .
+import:
+- package: gopkg.in/alecthomas/kingpin.v2
+  version: ^2.2.5
+- package: gopkg.in/gin-gonic/gin.v1
+  version: ^1.2.0
+- package: github.com/hatlonely/hgo
+  version: ^1.0.4
+- package: github.com/cihub/seelog
+  version: ^2.6.0
+- package: github.com/spf13/viper
+  version: ^1.0.0

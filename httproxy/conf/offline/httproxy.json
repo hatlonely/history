@@ -1,0 +1,21 @@
+{
+  "logger": {
+    "acclog": "conf/httproxy_acclog.xml",
+    "satlog": "conf/httproxy_satlog.xml",
+    "woklog": "conf/httproxy_woklog.xml"
+  },
+  "route": {
+    "address": ":3001",
+    "mode": "debug",
+    "logfile": "log/httproxy.ginlog"
+  },
+  "redis": {
+    "address": "127.0.0.1:6379",
+    "maxidle": 5,
+    "timeout": "100ms",
+    "retryTimes": 3
+  },
+  "proxy": {
+    "/hello": "127.0.0.1:3001/test"
+  }
+}

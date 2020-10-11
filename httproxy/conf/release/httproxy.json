@@ -1,0 +1,25 @@
+{
+  "logger": {
+    "acclog": "conf/httproxy_acclog.xml",
+    "satlog": "conf/httproxy_satlog.xml",
+    "woklog": "conf/httproxy_woklog.xml"
+  },
+  "route": {
+    "address": ":3001",
+    "mode": "release",
+    "logfile": "log/httproxy.ginlog"
+  },
+  "redis": {
+    "address": "123.207.136.97:6379",
+    "maxidle": 5,
+    "timeout": "100ms",
+    "retryTimes": 3
+  },
+  "proxy": {
+    "/kibana": "http://{mini}:5601",
+    "/webbe/md": "http://{mini}:3002/md",
+    "/webbe/doclist": "http://{mini}:3002/doclist",
+    "/article": "http://{mini}:4000/article",
+    "/doclist": "http://{mini}:4000/doclist"
+  }
+}

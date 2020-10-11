@@ -1,0 +1,8 @@
+third/
+bin/
+pkg/
+log/
+.idea/
+output/
+data/
+vendor

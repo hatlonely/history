@@ -1,0 +1,12 @@
+<seelog>
+    <outputs>
+        <filter levels="debug, trace, info, warn, error, critical">
+            <buffered formatid="analyst" size="10000" flushperiod="100">
+                <rollingfile type="date" filename="./log/httproxy.satlog" datepattern="2006010215" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="analyst" format="%Msg%n"/>
+    </formats>
+</seelog>
