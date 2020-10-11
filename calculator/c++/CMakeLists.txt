@@ -1,0 +1,25 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(CALCULATOR)
+
+SET(CMAKE_VERBOSE_MAKEFILE OFF)
+SET(LIBRARY_OUTPUT_PATH ${CALCULATOR_BINARY_DIR}/lib)
+SET(CMAKE_CXX_FLAGS "-g -std=c++11")
+
+SET(SOURCES calculator.h calculator.cpp test_calculator.cpp)
+
+INCLUDE_DIRECTORIES(
+    "."
+    "/usr/local/include"
+)
+
+LINK_DIRECTORIES(
+    "/usr/local/lib"
+)
+
+ADD_EXECUTABLE(calculator ${SOURCES})
+
+ADD_CUSTOM_COMMAND(
+    TARGET calculator
+    POST_BUILD
+    COMMAND cp ${CALCULATOR_SOURCE_DIR}/case.txt ${CALCULATOR_BINARY_DIR}
+)
