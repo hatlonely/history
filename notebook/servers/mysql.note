@@ -1,0 +1,59 @@
+# mysql
+
+## 用户管理
+### 创建用户
+CREATE USER 'user'@'host' IDENTIFIED BY 'passwd'
+### 赋予用户权限
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON database.table TO user@'host' IDENTIFIED BY 'passwd'
+### 修改用户密码
+MYSQLADMIN -uuser -ppasswd PASSWORD newpasswd
+### 删除用户
+DROP USER user
+### 取消授权用户
+REVOKE privilege ON database.table FROM 'user'@'host'
+### 查看授权
+SHOW GRANTS FOR 'user'@'host'
+
+## 数据库表操作
+### 显示数据库
+SHOW DATABASES;
+### 进入数据库
+USE database;
+### 显示表
+SHOW TABLES;
+### 查看表结构
+DESCRIBE table;
+### 创建数据库
+CREATE DATEBASES database;
+### 创建表
+CREATE TABLE table (
+    `wordid` bigint(20) unsigned NOT NULL,
+    `md64` bigint(20) unsigned NOT NULL,
+    `keyword` char(64) NOT NULL,
+    PRIMARY KEY (`wordid`),
+    KEY `idx_md64` (`md64`),
+    KEY `idx_keyword` (`keyword`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk
+### 插入
+INSERT INTO table (`wordid`, `md64`, `keyword`) VALUES (wordid, md64, keyword)
+### 导入文件
+LOAD DATA INFILE 'file' INTO TABLE table;
+### 删除
+DELETE FROM table WHERE 1=1
+### 更新
+UPDATE table SET column='value' WHERE condition
+### 删除数据库
+DROP DATABASE database
+### 修改表的存储引擎
+ALTER TABLE table ENGINE=engine;
+### 删除字段
+ALTER TABLE table DROP column;
+### 修改表名
+ALTER TABLE table RENAME TO new_table;
+### 修改字段名
+ALTER TABLE table CHANGE column new_column data_type;
+
+
+
+
+
