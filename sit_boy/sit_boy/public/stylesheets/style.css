@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+* {
+	font-family: PetalaPro, 'Helvetica Neue', Helvetica, Arial, 'Source Han Sans CN', 'Hiragino Sans GB', 'Microsoft YaHei', 'Microsoft JhengHei', sans-serif;
+}
+
+.hatlonely-home {
+    height: 100px;
+    background-color: #57C3DB;
+    color: #FEFEFE;
+}
+
+.hatlonely-logo {
+	height: 40px;
+	font-size: 30px;
+	padding-top: 10px;
+	padding-left: 300px;
+	text-align: left;
+	font-family: 'Telugu MN', 'Malayalam MN';
+	font-weight: bold;
+}
+
+.hatlonely-sign {
+	height: 40px;
+	font-size: 14px;
+	text-align: right;
+	padding-right: 300px;
+}
+
+.space {
+	height: 40px;
+}
+
+.thumbnail {
+    background-color: #EDEFF1;
+    border-color: #EDEFF1;
+    height: 187px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.thumbnail:hover {
+    box-shadow: 0 0 10px rgba(0, 204, 204, .5);
+}
+
+.thumbnail-title {
+    font-size: 20px;
+    font-weight: bold;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.thumbnail-context {
+    height: 100px padding-left: 5px;
+    padding-right: 5px;
+}

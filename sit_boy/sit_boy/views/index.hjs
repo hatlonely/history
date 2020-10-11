@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script>
+        window.onload = function() {
+            $.ajax({
+                url:"/get_thumbnails",
+                success: function(data) {
+                    $("#markdown-thumbnail").html(data.thumbnails_html);
+                    $('.thumbnail').click(function() {
+                        location.href = $(this).attr('data-url');
+                    });
+                },
+            });
+        };
+    </script>
+    <title> Hatlonely Home </title>
+</head>
+<body>
+<div class="hatlonely-home">
+    <div class="hatlonely-logo"> hatlonely </div>
+    <div class="hatlonely-sign"> 我是程序员  我懒 </div>
+</div>
+
+<div class="space"></div>
+
+<div class="container" id="markdown-thumbnail">
+    {{ thumbnails_html }}
+</div>
+
+</body>
+</html>

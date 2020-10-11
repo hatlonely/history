@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="javascripts/node_modules/marked/lib/marked.js"></script>
+    <script src="http://apps.bdimg.com/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="javascripts/markdown.js"></script>
+    <link href="stylesheets/markdown.css" rel="stylesheet" type="text/css">
+    <link href="javascripts/node_modules/highlight.js/styles/xcode.css" rel="stylesheet" type="text/css">
+    <script>
+        window.onload = function() {
+            $.ajax({
+                url:"/get_article?doc={{ document }}",
+                success: function(data) {
+                   $("#markdown").html(marked(data.markdown));
+                }
+            });
+        };
+    </script>
+    <title> {{ title }} </title>
+</head>
+<body>
+    <div id="markdown"></div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "sit_boy",
+  "author": {
+    "name": "hatlonely",
+    "email": "hatlonely@gmail.com"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "marked": ">=0.3.3",
+    "highlight.js": ">=8.4.0",
+    "jquery": ">=2.1.3"
+  }
+}
