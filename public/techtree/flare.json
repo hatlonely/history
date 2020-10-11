@@ -1,0 +1,224 @@
+{
+    "name": "技能树",
+    "children": [{
+        "name": "语言",
+        "children": [{
+            "name": "golang",
+            "children": [{
+                "name": "glide",
+                "size": 0
+            }, {
+                "name": "pprof",
+                "size": 0
+            }, {
+                "name": "go test",
+                "size": 0
+            }, {
+                "name": "go-swagger",
+                "size": 0
+            }, {
+                "name": "gorm",
+                "size": 0
+            }, {
+                "name": "aws-sdk-go",
+                "size": 0
+            }, {
+                "name": "logrux",
+                "size": 0
+            }, {
+                "name": "viper",
+                "size": 0
+            }]
+        }, {
+            "name": "前端",
+            "children": [{
+                "name": "html",
+                "size": 0
+            }, {
+                "name": "css",
+                "size": 0
+            }, {
+                "name": "javascript",
+                "size": 0
+            }, {
+                "name": "jquery",
+                "size": 0
+            }, {
+                "name": "bootstrap",
+                "size": 0
+            }, {
+                "name": "markdown",
+                "size": 0
+            }]
+        }, {
+            "name": "c++",
+            "children": [{
+                "name": "std",
+                "size": 0
+            }, {
+                "name": "boost",
+                "size": 0
+            }, {
+                "name": "cmakelist",
+                "size": 0
+            }]
+        }, {
+            "name": "python",
+            "children": [
+            ]
+        }]
+    }, {
+        "name": "操作系统",
+        "children": [{
+            "name": "Mac",
+            "children": [{
+                "name": "omnigraffle",
+                "size": 0
+            }, {
+                "name": "omniplan",
+                "size": 0
+            }, {
+                "name": "brew",
+                "size": 0
+            }, {
+                "name": "numbers",
+                "size": 0
+            }, {
+                "name": "coreutils",
+                "size": 0
+            }, {
+                "name": "xcode",
+                "size": 0
+            }, {
+                "name": "goland",
+                "size": 0
+            }, {
+                "name": "pycharm",
+                "size": 0
+            }, {
+                "name": "sublime text 3",
+                "size": 0
+            }, {
+                "name": "iterm2",
+                "size": 0
+            }]
+        }, {
+            "name": "linux",
+            "children": [{
+                "name": "zsh",
+                "size": 0
+            }, {
+                "name": "vim",
+                "size": 0
+            }, {
+                "name": "shell",
+                "size": 0
+            }, {
+                "name": "vpn",
+                "size": 0
+            }]
+        }]
+    }, {
+        "name": "数据结构",
+        "children": [{
+            "name": "vector",
+            "size": 0
+        }, {
+            "name": "list",
+            "size": 0
+        }, {
+            "name": "tree",
+            "size": 0
+        }, {
+            "name": "hash",
+            "size": 0
+        }, {
+            "name": "map",
+            "size": 0
+        }, {
+            "name": "set",
+            "size": 0
+        }]
+    }, {
+        "name": "微服务",
+        "children": [{
+            "name": "网络框架",
+            "children": [{
+                "name": "restful",
+                "size": 0
+            }, {
+                "name": "grpc",
+                "size": 0
+            }, {
+                "name": "thrift",
+                "size": 0
+            }]
+        }, {
+            "name": "aws",
+            "children": [{
+                "name": "s3",
+                "size": 0
+            }, {
+                "name": "ec2",
+                "size": 0
+            }]
+        }]
+    }, {
+        "name": "服务工具",
+        "children": [{
+            "name": "大数据",
+            "children": [{
+                "name": "kafka",
+                "size": 0
+            }, {
+                "name": "hadoop",
+                "size": 0
+            }, {
+                "name": "spark",
+                "size": 0
+            }]
+        }, {
+            "name": "elk",
+            "children": [{
+                "name": "elasticsearch",
+                "size": 0
+            }, {
+                "name": "logstash",
+                "size": 0
+            }, {
+                "name": "kibana",
+                "size": 0
+            }]
+        }, {
+            "name": "存储",
+            "children": [{
+                "name": "mysql",
+                "size": 0
+            }, {
+                "name": "mongo",
+                "size": 0
+            }, {
+                "name": "redis",
+                "size": 0
+            }]
+        }, {
+            "name": "版本控制",
+            "children": [{
+                "name": "git",
+                "size": 0
+            }, {
+                "name": "svn",
+                "size": 0
+            }, {
+                "name": "github",
+                "size": 0
+            }]
+        }, {
+            "name": "web",
+            "children": [{
+                "name": "nginx",
+                "size": 0
+            }]
+        }]
+    }]
+}
