@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+import sys
+import smtplib
+import email.mime.text
+import configparser
+import argparse
+import markdown2
+import pyquery
+
+
+class MailSender(object):
+    """ 配置文件示例
+    [smtp]
+    host = smtp.163.com
+    user = you@163.com
+    password = 123456
+    """
+    def __init__(self, conf):
+        cp = configparser.ConfigParser()
+        cp.read(conf)
+        self.host = cp.get('smtp', 'host')
+        self.user = cp.get('smtp', 'user')
+        self.password = cp.get('smtp', 'password')
+
+    def send(self, to, subject, content, ctype='html', style=None, sign=None):
+        content = markdown2.markdown(content, extras=['tables', 'code-friendly', 'fenced-code-blocks'])
+        pq = pyquery.PyQuery(content)
+        pq("table").add_class('table table-striped table-hover')
+        print(pq)
+        if sign:
+            content = content + sign
+        if style:
+            content = """
+<head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootswatch/3.3.7/{style}/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="row">
+<div class="col-md-6 col-md-offset-3" id="markdown">
+{content}
+</div>
+</div>
+</body>""".format(style=style, content=pq)
+        print("sendto: {}".format(to))
+        print("subject: {}".format(subject))
+        print("ctype: {}".format(ctype))
+        print(content)
+        message = email.mime.text.MIMEText(content, ctype, 'utf-8')
+        message['Subject'] = subject
+        message['From'] = self.user
+        message['To'] = to
+
+        smtp = smtplib.SMTP(self.host)
+        smtp.login(self.user, self.password)
+        smtp.sendmail(self.user, to.split(','), message.as_string())
+        smtp.close()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--to', help='收件人', type=str, required=True)
+    parser.add_argument('--subject', help='主题', type=str, required=True)
+    parser.add_argument('--content', help='邮件内容', type=str)
+    parser.add_argument('--sign', help='邮件签名', type=str)
+    parser.add_argument('--ctype', help='邮件格式', type=str, default='html', choices=['html', 'plain'])
+    parser.add_argument('--style', help='邮件样式', type=str, default='spacelab', choices='simplex/lumen/paper/flatly/darkly/yeti/readable/superhero/spacelab/cosmo/cerulean/cyborg/united'.split('/'))
+    args = parser.parse_args()
+
+    if args.content:
+        content = open(args.content, 'r').read()
+    else:
+        content = sys.stdin.read()
+    if args.sign:
+        sign = open(args.sign, 'r').read()
+    else:
+        sign = None
+    mailsender = MailSender('sendmail.conf')
+    mailsender.send(args.to, args.subject, content, args.ctype, args.style, sign)
+
+
+if __name__ == '__main__':
+    main()
+

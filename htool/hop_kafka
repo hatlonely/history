@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+function warn() {
+    echo "[31m$1[0m"
+}
+
+function info() {
+    echo "[32m$1[0m"
+}
+
+function trac() {
+    echo "$1"
+}
+
+function install() {
+    wget http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/0.10.2.0/kafka_2.11-0.10.2.0.tgz &&
+    tar -xzf kafka_2.11-0.10.2.0.tgz &&
+    info "install kafka success" && return 0
+    warn "install kafka fail" && return 255
+}
+
+function start() {
+    cd kafka_2.11-0.10.2.0
+    nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
+    nohup bin/kafka-server-start.sh config/server.properties &
+}
+
+function stop() {
+    ps aux | grep -v grep | grep kafka | grep config/server.properties | awk '{print $2}' | xargs kill -9
+    ps aux | grep -v grep | grep zookeeper | grep config/zookeeper.properties | awk '{print $2}' | xargs kill -9
+}
+
+function check() {
+    ps aux | grep -v grep | grep kafka
+    ps aux | grep -v grep | grep zookeeper
+}
+
+function clean() {
+    rm -rf kafka_2.11-0.10.2.0 kafka_2.11-0.10.2.0.tgz
+}
+
+function create_topic() {
+    cd kafka_2.11-0.10.2.0
+    bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic $1
+}
+
+function send() {
+    cd kafka_2.11-0.10.2.0
+    bin/kafka-console-producer.sh --broker-list localhost:9092 --topic $1
+}
+
+function recv() {
+    cd kafka_2.11-0.10.2.0
+    bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic $1 --from-beginning
+}
+
+function usage() {
+    echo "usage:"
+    echo "  sh op_redis_cluster <start | stop | clean>"
+    echo "  install             安装"
+    echo "  start               开始"
+    echo "  stop                结束"
+    echo "  clean               清理"
+    echo "  check               检查"
+    echo "  topic <topic>       创建topic"
+    echo "  send <topic>        发送消息"
+    echo "  recv <topic>        接送消息"
+}
+
+function main() {
+    case $1 in
+        "install") install;;
+        "start") start;;
+        "check") check;;
+        "clean") clean;;
+        "stop") stop;;
+        "topic") create_topic $2;;
+        "send") send $2;;
+        "recv") recv $2;;
+        *) usage;;
+    esac
+}
+
+main "$@"

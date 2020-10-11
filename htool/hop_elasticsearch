@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+function warn() {
+    echo "[31m$1[0m"
+}
+
+function info() {
+    echo "[32m$1[0m"
+}
+
+function trac() {
+    echo "$1"
+}
+
+function install() {
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.1.tar.gz &&
+    tar -xzf elasticsearch-5.4.1.tar.gz &&
+    cd elasticsearch-5.4.1 &&
+    bin/elasticsearch-plugin install x-pack &&
+    info "install elasticsearch success" && return 0
+    warn "install elasticsearch fail" && return 255
+}
+
+function start() {
+    cd elasticsearch-5.4.1
+    nohup bin/elasticsearch &
+}
+
+function stop() {
+    ps aux | grep -v grep | grep elasticsearch | awk '{print $2}' | xargs kill
+}
+
+function clean() {
+    rm -rf elasticsearch-5.4.1 elasticsearch-5.4.1.tar.gz
+}
+
+function usage() {
+    echo "usage:"
+    echo "  sh op_redis_cluster <start | stop | clean>"
+    echo "  install             安装"
+    echo "  start               开始"
+    echo "  stop                结束"
+    echo "  clean               清理"
+}
+
+function main() {
+    case $1 in
+        "install") install;;
+        "start") start;;
+        "stop") stop;;
+        "clean") clean;;
+        *) usage;;
+    esac
+}
+
+main "$@"

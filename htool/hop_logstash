@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+function warn() {
+    echo "[31m$1[0m"
+}
+
+function info() {
+    echo "[32m$1[0m"
+}
+
+function trac() {
+    echo "$1"
+}
+
+function install() {
+    wget https://artifacts.elastic.co/downloads/logstash/logstash-5.4.1.tar.gz &&
+    tar -xzvf logstash-5.4.1.tar.gz &&
+    info "install logstash success" && return 0
+    warn "install logstash fail" && return 255
+}
+
+function start() {
+    cd logstash-all-plugins-2.4.1
+    bin/logstash -f $1
+}
+
+function clean() {
+    rm -rf logstash-all-plugins-2.4.1.tar.gz logstash-2.4.1
+}
+
+function usage() {
+    echo "usage:"
+    echo "  sh op_redis_cluster <start | stop | clean>"
+    echo "  install             安装"
+    echo "  start               开始"
+    echo "  clean               清理"
+}
+
+function main() {
+    case $1 in
+        "install") install;;
+        "start") start;;
+        "clean") clean;;
+        *) usage;;
+    esac
+}
+
+main "$@"

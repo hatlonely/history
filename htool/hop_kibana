@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+function warn() {
+    echo "[31m$1[0m"
+}
+
+function info() {
+    echo "[32m$1[0m"
+}
+
+function trac() {
+    echo "$1"
+}
+
+function install() {
+    wget https://artifacts.elastic.co/downloads/kibana/kibana-5.4.1-darwin-x86_64.tar.gz &&
+    tar -xzf kibana-5.4.1-darwin-x86_64.tar.gz &&
+    cd kibana-5.4.1-darwin-x86_64 &&
+    bin/kibana-plugin install x-pack
+    info "install kibana success" && return 0
+    warn "install kibana fail" && return 255
+}
+
+function start() {
+    cd kibana-5.4.1-darwin-x86_64
+    nohup bin/kibana &
+}
+
+function stop() {
+    ps aux | grep -v grep | grep kibana | awk '{print $2}' | xargs kill
+}
+
+function clean() {
+    rm -rf kibana-5.4.1-darwin-x86_64 kibana-5.4.1-darwin-x86_64.tar.gz
+}
+
+function usage() {
+    echo "usage:"
+    echo "  sh hop_kibana <install | start | stop | clean>"
+    echo "  install             安装"
+    echo "  start               开始"
+    echo "  stop                结束"
+    echo "  clean               清理"
+}
+
+function main() {
+    case $1 in
+        "install") install;;
+        "start") start;;
+        "stop") stop;;
+        "clean") clean;;
+        *) usage;;
+    esac
+}
+
+main "$@"

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+function usage() {
+    echo "hclient <cmd> [args...]"
+    echo "example:"
+    echo "  hclient get <key>"
+    echo "  hclient set <key> <val>"
+    echo "  hclient push <file>"
+    echo "  hclient push <file>"
+}
+
+function main() {
+    case $1 in
+        #"get") curl -G --data-urlencode "key=$2" http://123.207.136.97:6001/get;;
+        #"set") curl -G --data-urlencode "key=$2" --data-urlencode "val=$3" http://123.207.136.97:6001/set;;
+        "get") redis-cli -h 123.207.136.97 get $2;;
+        "set") redis-cli -h 123.207.136.97 set $2 $3;;
+        "push") scp -r $2 qq:/home/hatlonely/download && ssh qq "chown -R hatlonely:hatlonely /home/hatlonely/download/$2";;
+        "pull") scp -r $2 qq:/home/hatlonely/download && ssh qq "chown -R hatlonely:hatlonely /home/hatlonely/download/$2";;
+        *) usage;;
+    esac
+}
+
+main "$@"

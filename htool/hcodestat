@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+function codeformat() {
+    python3 -c "
+import sys
+import datetime
+for line in sys.stdin:
+    obj = {}
+    values = line.split()
+    obj['@timestamp'] = datetime.datetime.now() - datetime.timedelta(hours=8)
+    obj['@lang'] = values[0]
+    obj['num'] = int(values[1])
+    print(('htech', 'code_number', obj['@lang'], obj))
+    "
+}
+
+function codestat() {
+    find . -type f -name "*.sh" | grep -v .git | xargs wc -l | grep total | awk '{print "shell", $1}' | codeformat
+    find . -type f -name "*.go" | grep -v .git | xargs wc -l | grep total | awk '{print "golang", $1}' | codeformat
+    find . -type f -name "*.h" -o -name "*.cpp" | grep -v .git | xargs wc -l | grep total | awk '{print "cpp", $1}' | codeformat
+    find . -type f -name "*.py" | grep -v .git | xargs wc -l | grep total | awk '{print "python", $1}' | codeformat
+    find . -type f -name "*.java" | grep -v .git | xargs wc -l | grep total | awk '{print "java", $1}' | codeformat
+    find . -type f -name "*.md" | grep -v .git | xargs wc -l | grep total | awk '{print "markdown", $1}' | codeformat
+}
+
+function main() {
+    codestat
+}
+
+main

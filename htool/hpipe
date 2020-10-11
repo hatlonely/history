@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import json
+
+
+class Initer(object):
+    def __init__(self, configure):
+        for key in configure:
+            self.__setattr__(key, configure[key])
+
+
+class Inputer(Initer):
+    def __init__(self, configure):
+        Initer.__init__(self, configure)
+
+    def load(self, line):
+        return {}
+
+
+class Filter(Initer):
+    def __init__(self, configure):
+        Initer.__init__(self, configure)
+
+    def filter(self, obj):
+        return True
+
+
+class Outputer(Initer):
+    def __init__(self, configure):
+        Initer.__init__(self, configure)
+
+    def dump(self, obj):
+        print(obj)
+
+""" Inputer
+TextInputer: 按 \t 分隔的字段
+"""
+class TextInputer(Inputer):
+    def __init__(self, configure):
+        self.separator = '\t'
+        self.fields = None
+        Inputer.__init__(self, configure)
+        if self.fields:
+            self.fields = self.fields.split(',')
+
+    def load(self, line):
+        obj = {}
+        values = line.split(self.separator)
+        fields = self.fields
+        for i in range(len(values)):
+            if i < len(fields):
+                obj[fields[i]] = values[i]
+            else:
+                obj[str(i)] = values[i]
+        return obj
+
+
+""" Filter
+AllFilter: 不作任何过滤
+"""
+class AllFilter(Filter):
+    def __init__(self, configure):
+        Filter.__init__(self, configure)
+
+    def filter(self, obj):
+        return True
+
+
+""" Outputer
+TextOutputer: 按照 \t 输出
+JsonOutputer: 按照 Json 格式输出
+PyOutputer: 按照 Python 的格式输出
+"""
+
+class TextOutputer(Outputer):
+    def __init__(self, configure):
+        self.separator = '\t'
+        self.fields = None
+        Outputer.__init__(self, configure)
+        if self.fields:
+            self.fields = self.fields.split(',')
+
+    def dump(self, obj):
+        fields = self.fields
+        if not self.fields:
+            fields = sorted(obj.keys())
+        print(self.separator.join([obj[key] for key in fields]))
+
+
+class JsonOutputer(Outputer):
+    def __init__(self, configure):
+        self.fields = None
+        Outputer.__init__(self, configure)
+        if self.fields:
+            self.fields = self.fields.split(',')
+
+    def dump(self, obj):
+        obj_copy = {}
+        fields = self.fields
+        if not self.fields:
+            fields = sorted(obj.keys())
+        for key in fields:
+            obj_copy[key] = obj[key]
+        print(json.dumps(obj_copy))
+
+
+class PyOutputer(Outputer):
+    def __init__(self, configure):
+        self.fields = None
+        Outputer.__init__(self, configure)
+        if self.fields:
+            self.fields = self.fields.split(',')
+
+    def dump(self, obj):
+        obj_copy = {}
+        fields = self.fields
+        if not self.fields:
+            fields = sorted(obj.keys())
+        for key in fields:
+            obj_copy[key] = obj[key]
+        print(obj_copy)
+
+
+
+class HPipe(object):
+    def __init__(self, configure):
+        self.input = TextInputer({})
+        self.filter = AllFilter({})
+        self.output = TextOutputer({})
+
+        if 'input' in configure:
+            for key in configure['input']:
+                self.input = getattr(__import__(__name__), key)(configure['input'][key])
+        if 'filter' in configure:
+            for key in configure['filter']:
+                self.filter = getattr(__import__(__name__), key)(configure['filter'][key])
+        if 'output' in configure:
+            for key in configure['output']:
+                self.output = getattr(__import__(__name__), key)(configure['output'][key])
+
+    def process(self):
+        for line in sys.stdin:
+            obj = self.input.load(line[:-1])
+            if not self.filter.filter(obj):
+                continue
+            self.output.dump(obj)
+
+
+def usage():
+    print("""
+    hpipe -e "{'input': { 'TextInputer': {}}, 'output': {'JsonOutputer': {}}}"
+    hpipe -e "{'input': { 'TextInputer': {'fields':'a,b,c', 'separator': ' '}}, 'output': {'JsonOutputer': {'separator': 'xxxx'}}}"
+    """)
+
+
+def main():
+    print(getattr(__import__(__name__), 'HPipe'))
+    parser = argparse.ArgumentParser(description='hpipe')
+    parser.add_argument('-e', '--execute', help='配置', required=True)
+    args = parser.parse_args()
+    configure = eval(args.execute)
+    HPipe(configure).process()
+
+
+if __name__ == '__main__':
+    main()
