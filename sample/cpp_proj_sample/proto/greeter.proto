@@ -1,0 +1,15 @@
+// see https://grpc.io/docs/guides/ for more infomation
+
+syntax = "proto3";
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
