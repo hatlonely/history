@@ -1,0 +1,43 @@
+{
+    "theme": "Spacegray Eighties.sublime-theme",
+    "color_scheme": "Packages/Colorsublime - Themes/feel_good.tmTheme",
+    "default_line_ending": "unix",
+    "ensure_newline_at_eof_on_save": true,
+    // "font_options": ["no_italic", "no_antialias", "no_bold", "no_round", "subpixel_antialias", "gray_antialias"],
+    "font_options": ["no_italic"],
+    // 等宽字体
+    // "font_face": "Menlo",
+    // "font_size": 16,
+    // "font_face": "Source Code Pro",
+    // "font_size": 16,
+    // "font_face": "Deja Vu Sans Mono",
+    // "font_size": 16,
+    // "font_face": "Inconsolata",
+    // "font_size": 16,
+    // "font_face": "Monaco",
+    // "font_size": 16,
+    // "font_face": "Courier New",
+    // "font_size": 16,
+    // "font_face": "Bitstream Vera Sans Mono",
+    // "font_size": 16,
+    // "font_face": "PT Mono",
+    // "font_size": 16,
+    // 非等宽字体
+    // "font_face": "Parisish",
+    // "font_size": 20,
+    // "font_face": "明兰",
+    // "font_size": 16,
+    // "font_face": "Infinity",
+    // "font_size": 16,
+    // "font_face": "Futura",
+    // "font_size": 16,
+    // "font_face": "Gurmukhi MN",
+    // "font_size": 16,
+    // "font_face": "Myanmar MN",
+    // "font_size": 16,
+    // "ignored_packages":
+    // [
+    // ],
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true
+}

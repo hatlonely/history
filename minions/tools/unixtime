@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+#coding: utf-8
+
+"""
+Description: unix时间戳与unix时间相互转化脚本
+Authors: hatlonely(hatlonely@gmail.com)
+Date: 2015-10-24
+"""
+
+import time
+import sys
+import re
+
+def unixtime2timestamp(unixtime):
+    """ unix时间转unix时间戳
+
+    Args:
+        unixtime string yyyy-mm-dd HH:MM:SS 格式
+
+    Returns:
+        timestamp string unxi时间戳
+    """
+    if re.compile('^\d+-\d+-\d+ \d\d:\d\d:\d\d$').match(unixtime):
+        return str(int(time.mktime(time.strptime(unixtime, '%Y-%m-%d %H:%M:%S'))))
+    elif re.compile('^\d+-\d+-\d+ \d\d:\d\d$').match(unixtime):
+        return str(int(time.mktime(time.strptime(unixtime, '%Y-%m-%d %H:%M'))))
+    elif re.compile('^\d+-\d+-\d+$').match(unixtime):
+        return str(int(time.mktime(time.strptime(unixtime, '%Y-%m-%d'))))
+    else:
+        return None
+
+def timestamp2unixtime(timestamp):
+    """ unix时间戳转unix时间
+
+    Args:
+        timestamp string unix时间戳
+
+    Returns:
+        unixtime string yyyy-mm-dd HH:MM:SS 格式
+    """
+    if re.compile('^\d+$').match(timestamp):
+        return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(timestamp)))
+    else:
+        return None
+
+def main():
+    if len(sys.argv) == 2:
+        if timestamp2unixtime(sys.argv[1]):
+            print(timestamp2unixtime(sys.argv[1]))
+        elif unixtime2timestamp(sys.argv[1]):
+            print(unixtime2timestamp(sys.argv[1]))
+        else:
+            print("unixtime <timestamp or unixtime>")
+    elif len(sys.argv) == 3:
+        if unixtime2timestamp(sys.argv[1] + ' ' + sys.argv[2]):
+            print(unixtime2timestamp(sys.argv[1] + ' ' + sys.argv[2]))
+        else:
+            print("unixtime <timestamp or unixtime>")
+    else:
+        print("unixtime <timestamp or unixtime>")
+
+if __name__ == '__main__':
+    main()

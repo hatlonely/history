@@ -1,0 +1,24 @@
+install() {
+    which node 1>/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        notice "node is already installed"
+        return 0
+    fi
+
+    curdir=`pwd`
+
+    cd ${APPSOUCE}
+    wget http://nodejs.org/dist/v0.12.0/node-v0.12.0.tar.gz
+
+    tar -xzvf node-v0.12.0.tar.gz
+    cd node-v0.12.0
+    ./configure --prefix=$HOME/${LOCAL}
+    make && make install
+
+    cd ${curdir}
+}
+
+usage() {
+    notice "node"
+    notice "for more infomation http://www.nodejs.org/"
+}

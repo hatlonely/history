@@ -1,0 +1,185 @@
+#!/usr/bin/env node
+
+// @file md2html.js
+// @desc 将md转成html
+// @auth hatlonely(hatlonely@baidu.com)
+// @vers 2.0
+// @date 2015-02-16
+
+var fs     = require('fs');
+var marked = require('marked');
+var hljs   = require('highlight.js');
+
+
+var base_path = process.argv[1].substring(0, process.argv[1].lastIndexOf('/'));
+
+
+var config = {
+    html_dir: './',
+    image_dir: '../image/',
+    base_style: base_path + '/style.css',
+    code_style: base_path + '/node_modules/highlight.js/styles/xcode.css',
+}
+
+
+var renderer = function () {
+    var renderer = new marked.Renderer();
+
+    function escapeHTML(str) {
+        return ('' + str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function decodeHTML(str) {                                      
+        return ('' + str)
+            .replace(/&amp;/g,'&')
+            .replace(/&gt;/g,'>')
+            .replace(/&lt;/g,'<')
+            .replace(/&quot;/g,'"');
+    }
+
+    renderer.paragraph = function (text) {
+        if (/&lt;!--.*?--&gt;/.test(text)) {
+            return decodeHTML(text);
+        }
+        return '<p>' + text  + '</p>';
+    }
+
+    renderer.code = function (code, lang) {
+        if (lang == undefined) {
+            lang = 'nolang';
+        }
+        var langParam = lang.split('@');
+        lang = langParam[0];
+        langParam = langParam.splice(1);
+
+        var hlcode = '';
+        try {
+            hlcode = hljs.highlight(lang, code).value;
+        } catch (e) {
+            hlcode = escapeHTML(code);
+        }
+
+        var hlcodeArray = hlcode.split('\n');
+        var numLines = hlcodeArray.length;
+        var lineNumWidth = numLines.toString().length;
+
+        for (var paramIndex = 0; paramIndex < langParam.length; paramIndex++) {
+            switch (langParam[paramIndex]) {
+            case 'lineNum':
+                hlcode = '';
+                for (var hlcodeIndex = 0; hlcodeIndex < numLines; hlcodeIndex++) {
+                    var curLineNum = hlcodeIndex + 1;
+                    var indexWidth = curLineNum.toString().length;
+                    for (var i = 0; i < lineNumWidth - indexWidth; i++) {
+                        curLineNum = ' ' + curLineNum;
+                    }
+                    hlcodeArray[hlcodeIndex] = '<span class="linenum">'
+                        + curLineNum + '</span>  ' 
+                        + hlcodeArray[hlcodeIndex];
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        hlcode = hlcodeArray.join('\n');
+
+        return ''
+            + '<pre><code class="hljs ' + lang + '">' 
+            + hlcode + '\n'
+            + '</code></pre>';
+    }
+
+    return renderer;
+}();
+
+
+marked.setOptions({
+      renderer: renderer,
+      gfm: true,
+      tables: true,
+      breaks: true,
+      pedantic: true,
+      sanitize: true,
+      smartLists: true,
+      smartypants: true,
+});
+
+
+function makeHeader(title) {
+    return ''
+        + '<!DOCTYPE html>\n'
+        + '<meta charset="UTF-8">\n'
+        + '<title>' + title + '</title>\n'
+        + '<style type="text/css">\n'
+        +       fs.readFileSync(config.base_style, 'utf-8')
+        + '</style>\n'
+        + '<style type="text/css">\n'
+        +       fs.readFileSync(config.code_style, 'utf-8')
+        + '</style>\n'
+}
+
+
+function md2html(md_path, html_path, header) {
+    fs.readFile(md_path, 'utf-8', function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            fs.writeFile(html_path, header + marked(data), 'utf-8')
+        }
+    });
+}
+
+
+function main() {
+    var arguments = process.argv.splice(2);
+    markdownFiles = [];
+    for (var argIndex = 0; argIndex < arguments.length; argIndex++) {
+        var argument = arguments[argIndex];
+        if (argument.slice(0, 1) == '-') {
+            var kv = argument.slice(1).split(/\s/);
+            var key = kv[0];
+            var value = kv[1];
+            switch (key) {
+                case 'html_dir':
+                case 'image_dir':
+                case 'base_style':
+                case 'code_style':
+                    config[key] = value;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            markdownFiles = argument.split(/\s/);
+        }
+    }
+
+    for (var key in markdownFiles) {
+        var html_dir = config.html_dir;
+        var header = '';
+
+        var md_path = markdownFiles[key];
+        var startIndex = md_path.lastIndexOf('/');
+        var endIndex = md_path.lastIndexOf('.');
+        if (startIndex == -1) {
+            startIndex = md_path.lastIndexOf('\\');
+        }
+        if (endIndex < startIndex) {
+            endIndex = md_path.length;
+        }
+
+        var filename = md_path.substring(startIndex + 1, endIndex);
+        header = makeHeader(filename);
+
+        html_path = html_dir + filename + '.html';
+        md2html(md_path, html_path, header);
+    }
+}
+
+
+main();

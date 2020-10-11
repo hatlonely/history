@@ -1,0 +1,8 @@
+install() {
+    clone_repository pwaller pyfiglet
+}
+
+usage() {
+    notice "usage: pyfiglet -f doh hatlonely"
+    notice "for more infomation https://github.com/pwaller/pyfiglet"
+}

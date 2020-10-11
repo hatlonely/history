@@ -1,0 +1,8 @@
+install() {
+    clone_repository trentm python-markdown2
+}
+
+usage() {
+    notice "usage: markdown2 -h"
+    notice "for more infomation https://github.com/trentm/python-markdown2"
+}

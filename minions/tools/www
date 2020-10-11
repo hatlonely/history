@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# 修改httpd的documents目录路径
+
+if [[ $# -eq 1 ]]; then
+    directory=$1
+else
+    directory=`pwd`
+fi
+
+sed "s#/Library/WebServer/Documents#${directory}#g" /etc/apache2/httpd.conf.sample > /etc/apache2/httpd.conf
+apachectl restart

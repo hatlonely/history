@@ -1,0 +1,8 @@
+install() {
+    clone_repository chjj marked
+}
+
+usage() {
+    notice "usage: marked -h"
+    notice "for more infomation https://github.com/chjj/marked"
+}
