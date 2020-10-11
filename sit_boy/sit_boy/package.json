@@ -18,7 +18,7 @@
     "debug": "~2.0.0",
     "hjs": "~0.0.6",
     "less-middleware": "1.0.x",
-    "bootstrap": "3.3.0",
+    "bootstrap": "3.4.1",
     "figlet": "1.1.0",
     "marked": ">=0.3.3",
     "highlight.js": ">=8.4.0"
