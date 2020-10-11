@@ -1,0 +1,20 @@
+{
+  "logger": {
+    "acclog": "conf/httproxy_acclog.xml",
+    "satlog": "conf/httproxy_satlog.xml",
+    "woklog": "conf/httproxy_woklog.xml"
+  },
+  "route": {
+    "address": ":3002",
+    "mode": "release",
+    "logfile": "log/httproxy.ginlog"
+  },
+  "markdown": {
+    "dirname": "/Users/hatlonely/hatlonely/github/hatlonely/hatlonely/documents/"
+  },
+  "mysql": {
+    "uri": "hatlonely:keaiduo1@tcp(localhost:3306)/webbe",
+    "max_idle_conn": 10,
+    "max_open_conn": 10
+  }
+}

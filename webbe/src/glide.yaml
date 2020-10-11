@@ -1,0 +1,19 @@
+package: .
+ignore:
+- webbe
+- markdown
+- article_mysql
+- golang.org/x/net
+import:
+- package: gopkg.in/alecthomas/kingpin.v2
+  version: ^2.2.5
+- package: github.com/spf13/viper
+  version: ^1.0.0
+- package: github.com/cihub/seelog
+  version: ^2.6.0
+- package: gopkg.in/gin-gonic/gin.v1
+  version: ^1.2.0
+- package: github.com/hatlonely/hgo
+  version: ^1.0.4
+- package: github.com/go-sql-driver/mysql
+  version: ^1.3.0
