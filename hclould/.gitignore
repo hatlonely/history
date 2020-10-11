@@ -1,0 +1,8 @@
+.idea/
+github.com/
+gopkg.in/
+output/
+pkg/
+golang.org/
+google.golang.org/
+bin/
